@@ -39,6 +39,6 @@ server {
     # Laravel
     #
     location /doctr-app {
-        root /var/www/public;
+        root /var/www/backend/public;
     }
 }

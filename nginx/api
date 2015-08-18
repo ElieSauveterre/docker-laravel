@@ -1,14 +1,14 @@
 server {
     listen 80;
 
-    root /var/www/public;
+    root /var/www/backend/public;
     index index.php;
 
     server_name api.doctr.local;
 
     location / {
 
-        root /var/www/public;
+        root /var/www/backend/public;
         index index.php;
 
         try_files $uri $uri/ /index.php?$query_string;
