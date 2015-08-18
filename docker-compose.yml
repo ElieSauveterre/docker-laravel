@@ -1,20 +1,8 @@
-#mysqldata:
-#  image: harshjv/mysql-data:0.9.16-1.0
+mysqldata:
+  image: harshjv/mysql-data:0.9.16-1.0
 
 composerdata:
   image: harshjv/composer-data:0.9.16-1.0
-
-#mysql:
-#  image: harshjv/mysql:0.9.16-1.0
-#  environment:
-#    MYSQL_PASS: root
-#  volumes_from:
-#    - mysqldata
-
-#mysql:
-#  image: mariadb
-#  environment:
-#    MYSQL_ROOT_PASSWORD: ''
 
 mysql:
   image: tutum/mysql
@@ -22,6 +10,15 @@ mysql:
     - "3306:3306"
   environment:
     MYSQL_PASS: password
+  volumes_from:
+    - mysqldata
+  volumes:
+    - ./mysql:/var/lib/mysql
+
+phpmyadmin:
+  image: sauveterre/phpmyadmin
+  environment:
+    PMA_SECRET: yW5gmMTijQt7GcGIgk6frcjN
 
 phpnginx:
   image: sauveterre/php-nginx
@@ -31,10 +28,11 @@ phpnginx:
     - mysql:mysql
   ports:
     - "80:80" # Nginx
+  volumes_from:
+    - phpmyadmin
   volumes:
     - ./nginx:/etc/nginx/sites-enabled
     - /home/elie/Workspace/Doctr/backend/:/var/www
-    - ./logs:/var/log/nginx
 
 gulp:
   image: harshjv/bower-gulp:1.0

@@ -1,36 +1,44 @@
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server ipv6only=on;
+    listen 80;
 
     root /var/www/wordpress/web;
     index index.php index.html index.htm;
 
-    server_name localhost;
+    server_name doctr.local localhost;
 
-
+    #
+    # Wordpress
+    #
     location / {
-            root /var/www/wordpress/web;
+        root /var/www/wordpress/web;
 
-            index index.php index.html index.htm;
-            try_files $uri $uri/ /index.php?$args;
+        index index.php index.html index.htm;
+        try_files $uri $uri/ /index.php?$args;
 
-             location ~ \.php$ {
-                    try_files $uri =404;
-                    fastcgi_pass unix:/var/run/php5-fpm.sock;
-                    fastcgi_index index.php;
-                    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                    include fastcgi_params;
-            }
-
+         location ~ \.php$ {
+            try_files $uri =404;
+            fastcgi_pass unix:/var/run/php5-fpm.sock;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi_params;
+        }
     }
 
     if (!-e $request_filename) {
-            rewrite /wp-admin$ $scheme://$host$uri/ permanent;
-            rewrite ^(/[^/]+)?(/wp-.*) /wp$2 last;
-            rewrite ^(/[^/]+)?(/.*\.php) /wp$2 last;
+        rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+        rewrite ^(/[^/]+)?(/wp-.*) /wp$2 last;
+        rewrite ^(/[^/]+)?(/.*\.php) /wp$2 last;
     }
 
     location ~ /\.ht {
         deny all;
+    }
+
+
+    #
+    # Laravel
+    #
+    location /doctr-app {
+        root /var/www/public;
     }
 }
