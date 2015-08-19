@@ -7,6 +7,13 @@ server {
     server_name doctr.local localhost;
 
     #
+    # Laravel
+    #
+    location /doctr-app {
+        root /var/www/backend/public;
+    }
+
+    #
     # Wordpress
     #
     location / {
@@ -32,13 +39,5 @@ server {
 
     location ~ /\.ht {
         deny all;
-    }
-
-
-    #
-    # Laravel
-    #
-    location /doctr-app {
-        root /var/www/backend/public;
     }
 }

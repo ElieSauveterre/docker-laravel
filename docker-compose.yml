@@ -32,6 +32,7 @@ phpnginx:
     - phpmyadmin
   volumes:
     - ./nginx:/etc/nginx/sites-enabled
+    - ./composer/:/root/.composer
     - /home/elie/Workspace/Doctr/backend/:/var/www/backend
     - /home/elie/Workspace/Doctr/wordpress/:/var/www/wordpress
 
