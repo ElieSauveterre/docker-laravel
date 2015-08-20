@@ -16,12 +16,12 @@ mysql:
     - ./mysql:/var/lib/mysql
 
 phpmyadmin:
-  image: sauveterre/phpmyadmin
+  image: sauveterre/docker-phpmyadmin
   environment:
     PMA_SECRET: yW5gmMTijQt7GcGIgk6frcjN
 
 phpnginx:
-  image: sauveterre/php-nginx
+  image: sauveterre/docker-php-nginx
   volumes_from:
     - composerdata
   links:
