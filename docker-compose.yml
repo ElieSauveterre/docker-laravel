@@ -38,3 +38,6 @@ phpnginx:
 
 gulp:
   image: harshjv/bower-gulp:1.0
+
+nodejs:
+  image: sauveterre/docker-nodejs
