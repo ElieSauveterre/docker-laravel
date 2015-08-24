@@ -20,6 +20,11 @@ phpmyadmin:
   environment:
     PMA_SECRET: yW5gmMTijQt7GcGIgk6frcjN
 
+nodejs:
+  image: sauveterre/docker-nodejs
+  volumes:
+    - /home/elie/Workspace/Doctr/:/var/www
+
 phpnginx:
   image: sauveterre/docker-php-nginx
   volumes_from:
@@ -35,9 +40,3 @@ phpnginx:
     - ./composer/:/root/.composer
     - /home/elie/Workspace/Doctr/backend/:/var/www/backend
     - /home/elie/Workspace/Doctr/wordpress/:/var/www/wordpress
-
-gulp:
-  image: harshjv/bower-gulp:1.0
-
-nodejs:
-  image: sauveterre/docker-nodejs
