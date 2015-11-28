@@ -27,6 +27,8 @@ redis:
   image: redis:3.0.5
   volumes:
     - ./redis:/data
+  ports:
+    - "6379"
 
 phpnginx:
   image: sauveterre/docker-php-nginx
@@ -34,9 +36,11 @@ phpnginx:
     - composerdata
   links:
     - mysql:mysql
-    - redis:redis
+    - redis
   ports:
     - "80:80" # Nginx
+#    - "8000:8000" # Laravel serve
+#    - "3000:3000" # Redis
   volumes_from:
     - phpmyadmin
   volumes:
