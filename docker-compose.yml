@@ -6,8 +6,6 @@ composerdata:
 
 mysql:
   image: tutum/mysql
-  ports:
-    - "3306:3306"
   environment:
     MYSQL_PASS: password
   volumes_from:
@@ -25,18 +23,25 @@ nodejs:
   volumes:
     - /home/elie/Workspace/Doctr/:/var/www
 
+redis:
+  image: redis:3.0.5
+  volumes:
+    - ./redis:/data
+
 phpnginx:
   image: sauveterre/docker-php-nginx
   volumes_from:
     - composerdata
   links:
     - mysql:mysql
+    - redis:redis
   ports:
     - "80:80" # Nginx
   volumes_from:
     - phpmyadmin
   volumes:
     - ./nginx:/etc/nginx/sites-enabled
+#    - ./logs:/var/log/nginx
     - ./composer/:/root/.composer
     - /home/elie/Workspace/Doctr/backend/:/var/www/backend
     - /home/elie/Workspace/Doctr/wordpress/:/var/www/wordpress

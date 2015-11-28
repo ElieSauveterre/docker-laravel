@@ -129,3 +129,5 @@ vendor/
 sftp-config.json
 
 /mysql/
+/composer/
+/redis/
