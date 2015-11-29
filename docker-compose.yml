@@ -32,9 +32,10 @@ nodejs:
     - dbredis:redis
   ports:
     - "3000:3000" # Node
+  hostname: "node"
   volumes:
     - /home/elie/Workspace/Doctr/:/var/www
-  command: node backend/resources/api/socket/socket.js
+  command: node backend/resources/api/socket/Socket.js
 
 phpnginx:
   image: sauveterre/docker-php-nginx
