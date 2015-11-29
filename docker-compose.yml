@@ -18,17 +18,23 @@ phpmyadmin:
   environment:
     PMA_SECRET: yW5gmMTijQt7GcGIgk6frcjN
 
-nodejs:
-  image: sauveterre/docker-nodejs
-  volumes:
-    - /home/elie/Workspace/Doctr/:/var/www
-
-redis:
+dbredis:
   image: redis:3.0.5
   volumes:
     - ./redis:/data
   ports:
-    - "6379"
+    - "6379:6379" # Redis
+  command: redis-server
+
+nodejs:
+  image: sauveterre/docker-nodejs
+  links:
+    - dbredis:redis
+  ports:
+    - "3000:3000" # Node
+  volumes:
+    - /home/elie/Workspace/Doctr/:/var/www
+  command: node backend/resources/api/socket/socket.js
 
 phpnginx:
   image: sauveterre/docker-php-nginx
@@ -36,11 +42,11 @@ phpnginx:
     - composerdata
   links:
     - mysql:mysql
-    - redis
+    - dbredis:redis
   ports:
     - "80:80" # Nginx
-#    - "8000:8000" # Laravel serve
-#    - "3000:3000" # Redis
+#    - "3000:3000" # Node
+#    - "6379:6379" # Redis
   volumes_from:
     - phpmyadmin
   volumes:
