@@ -8,6 +8,8 @@ mysql:
   image: tutum/mysql
   environment:
     MYSQL_PASS: password
+  ports:
+    - "3306:3306"
   volumes_from:
     - mysqldata
   volumes:
@@ -34,8 +36,8 @@ nodejs:
     - "3000:3000" # Node
   hostname: "node"
   volumes:
-    - /home/elie/Workspace/Doctr/:/var/www
-  command: node backend/resources/api/socket/Socket.js
+    - /home/elie/Workspace/Doctr/backend:/var/www/backend
+  command: node resources/api/socket/Socket.js
 
 phpnginx:
   image: sauveterre/docker-php-nginx
@@ -47,13 +49,15 @@ phpnginx:
     - nodejs:node
   ports:
     - "80:80" # Nginx
+    - "443:443" # Nginx
 #    - "3000:3000" # Node
 #    - "6379:6379" # Redis
   volumes_from:
     - phpmyadmin
   volumes:
-    - ./nginx:/etc/nginx/sites-enabled
-#    - ./logs:/var/log/nginx
+    - ./nginx/sites-enabled:/etc/nginx/sites-enabled
+    - ./nginx/ssl:/etc/nginx/ssl
+    - ./logs:/var/log/nginx
     - ./composer/:/root/.composer
     - /home/elie/Workspace/Doctr/backend/:/var/www/backend
     - /home/elie/Workspace/Doctr/wordpress/:/var/www/wordpress
